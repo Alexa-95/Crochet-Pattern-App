@@ -12,6 +12,8 @@ type Props = {
   onClear: () => void;
   onExportPNG: () => void;
   onExportPDF: () => void;
+  onExportJson: () => void;
+  onImportJson: (file: File) => void;
 };
 
 const Controls: React.FC<Props> = ({
@@ -26,6 +28,9 @@ const Controls: React.FC<Props> = ({
   onClear,
   onExportPNG,
   onExportPDF,
+  onExportJson,
+  onImportJson,
+
 }) => {
   return (
     <section className="w-full max-w-5xl grid md:grid-cols-2 gap-4 items-end">
@@ -115,6 +120,32 @@ const Controls: React.FC<Props> = ({
         >
           Eksportuj PDF
         </button>
+        <button
+          className="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
+          onClick={onExportJson}
+        >
+          Eksportuj JSON
+        </button>
+        <div>
+          <input
+            id="import-json-input"
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                onImportJson(file);
+                e.currentTarget.value = "";
+              }
+            }}
+          />
+          <label htmlFor="import-json-input">
+            <span className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 cursor-pointer inline-block">
+              Importuj JSON
+            </span>
+          </label>
+        </div>
       </div>
     </section>
   );

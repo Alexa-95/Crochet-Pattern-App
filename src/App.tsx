@@ -3,6 +3,7 @@ import Controls from "./components/Controls";
 import GridCanvas from "./components/GridCanvas";
 import Legend from "./components/Legend";
 import { exportPDF, exportPNG } from "./utils/exportImage";
+import { importJson, exportJson } from "./utils/importExportJson";
 import type { Grid } from "./types";
 
 const App: React.FC = () => {
@@ -41,6 +42,23 @@ const App: React.FC = () => {
 
   const clear = (): void => setGrid(Array(rows * cols).fill(""));
 
+  const handleImportJson = async (file: File) => {
+    try {
+      const { rows, cols, cellSize, grid } = await importJson(file);
+      setRows(rows);
+      setCols(cols);
+      setCellSize(cellSize);
+      setGrid(grid);
+    } catch (err) {
+      console.error(err);
+      alert("Nie udało się zaimportować pliku JSON. Sprawdź format.");
+    }
+  };
+
+  const handleExportJson = () => {
+    exportJson(grid, rows, cols, cellSize);
+  };
+
   return (
     <div className="min-h-screen w-full bg-white text-gray-900 p-10 flex flex-col items-center gap-6">
       <header className="w-full flex flex-col gap-2">
@@ -62,7 +80,8 @@ const App: React.FC = () => {
         setColor={setColor}
         onClear={clear}
         onExportPNG={() => exportPNG(grid, rows, cols, cellSize)}
-        onExportPDF={() => exportPDF(grid, rows, cols, cellSize)}
+        onExportJson={handleExportJson}
+        onImportJson={handleImportJson}
       />
 
       <GridCanvas
