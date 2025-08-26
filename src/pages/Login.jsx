@@ -79,7 +79,7 @@ export default function Login({ onAuth }) {
             className="secondary"
             onClick={() => setMode(mode === "login" ? "register" : "login")}
           >
-            {mode === "login" ? "Mam nowe konto" : "Mam już konto"}
+            {mode === "login" ? "Załóż nowe konto" : "Mam już konto"}
           </button>
         </div>
       </form>
